@@ -1,0 +1,322 @@
+#Main diary program 
+import os
+
+def main():
+    print("Welcome to the diary entry program")
+    print("Is this your first entry?")
+    first_entry = input("Enter 'y' for yes or 'n' for no")
+    
+    if first_entry == 'y' or first_entry == 'Y':
+        first_time_entry()
+    
+    else:
+        again = 'y'
+        print("Loading diary options")
+        
+        while again == 'y':
+            print("Please select one of the options:")
+            print(" 1 = Append or add another entry")
+            print(" 2 = Read an entry")
+            print(" 3 = Edit/Delete an entry")
+        
+            option_user = int(input("Enter option:"))
+        
+            if option_user == 1:
+                main_diary_append()
+        
+            elif option_user == 2:
+                diary_entry_search()
+        
+            elif option_user == 3:
+                main_edit_or_delete()
+            
+            
+            else:
+                print("ERROR: Please enter an existing option")
+                again = 'y'
+            again = input("Continue more? (Enter 'y' to continue)")
+            
+    print("Thank you for using this program!")
+    print("Shutting down...")
+            
+def main_diary_append():
+    
+    main_file = open('diary.txt', 'a')
+    
+    again = 'y'
+    
+    while again == 'y' or again == 'Y':
+        print("Adding another entry...")
+        entry_date = input("Please enter entry date:")
+        entry_time = input("Please enter entry time:")
+        entry = input("Enter entry:")
+        
+        main_file.write(entry_date + ('\n'))
+        main_file.write(entry_time + ('\n'))
+        main_file.write(entry + ('\n'))
+        
+        again = input("Another entry? (Enter Y for yes)")
+    main_file.close()
+    print("Entry successfully saved")
+
+def first_time_entry():
+    
+    main_file = open('diary.txt', 'w')
+    
+    again = 'y'
+    
+    while again == 'y' or again == 'Y':
+        print("Adding first new entry")
+        entry_date = input("Please enter entry date:")
+        entry_time = input("Please enter entry time:")
+        entry = input("Enter entry:")
+        
+        main_file.write(entry_date + ('\n'))
+        main_file.write(entry_time + ('\n'))
+        main_file.write(entry + ('\n'))
+        
+        again = 'n'
+    main_file.close()
+    print("Entry successfully saved")
+    
+def main_edit_or_delete():
+    again = 'y'
+    while again == 'y' or again == 'Y':
+    
+        print("Enter 1 for editing or 2 for deleting")
+        mode = int(input("Enter mode number:"))
+    
+        if mode == 1:
+            edit()
+            print("Thanks for editing!")
+            
+        elif mode == 2:
+            delete()
+            print("Thanks for deleting!")
+        else:
+            if mode != 1 and mode != 2:
+                print("ERROR: No such mode number")
+                again = 'y'
+        again = input("Edit/Delete another entry? (Enter Y for yes)")
+        
+def edit():
+    again = 'y'
+    found = 'False'
+    
+    while again == 'y' or again == 'Y':
+        main_file = open('diary.txt', 'r')
+        temp_file = open('temp file.txt', 'w')
+        print("What are you editing?")
+        print("1 = Date, 2 = Time, 3 = Entry")
+        editing_mode = int(input("Enter edit number:"))
+    
+        #search_date = input("Please input entry date to revise")
+        #search_time = input("Please input entry time of the revision date")
+    
+        #Editing Date
+        if editing_mode == 1:
+            editing = input("Enter entry date:")
+            editing_spec = input("Enter entry time:") 
+            
+            first_date = main_file.readline()
+            
+            while first_date != '':
+                first_date = first_date.rstrip('\n')
+                entry_time = main_file.readline()
+                entry_time = entry_time.rstrip('\n')
+                entry = main_file.readline()
+                
+                if first_date != editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                elif first_date == editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+               
+                elif first_date != editing and editing_spec == entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                else:
+                    found = 'True'
+                    editing_date = input("Enter new date:")
+                    temp_file.write(editing_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                first_date = main_file.readline()
+    
+        #Editing Time
+        elif editing_mode == 2:
+            editing = input("Enter entry date:")
+            editing_spec = input("Enter entry time:") 
+            
+            first_date = main_file.readline()
+            
+            while first_date != '':
+                first_date = first_date.rstrip('\n')
+                entry_time = main_file.readline()
+                entry_time = entry_time.rstrip('\n')
+                entry = main_file.readline()
+                
+                if first_date != editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                elif first_date == editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+               
+                elif first_date != editing and editing_spec == entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                else:
+                    found = 'True'
+                    editing_time = input("Enter new time:")
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(editing_time + '\n')
+                    temp_file.write(entry)
+                
+                first_date = main_file.readline()
+            
+    
+        #Editing Entry
+        elif editing_mode == 3:
+            editing = input("Enter entry date:")
+            editing_spec = input("Enter entry time:") 
+            
+            first_date = main_file.readline()
+            
+            while first_date != '':
+                first_date = first_date.rstrip('\n')
+                entry_time = main_file.readline()
+                entry_time = entry_time.rstrip('\n')
+                entry = main_file.readline()
+                
+                if first_date != editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                elif first_date == editing and editing_spec != entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+               
+                elif first_date != editing and editing_spec == entry_time:
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(entry)
+                
+                else:
+                    found = 'True'
+                    editing_entry = input("Enter new entry:")
+                    temp_file.write(first_date + '\n')
+                    temp_file.write(entry_time + '\n')
+                    temp_file.write(editing_entry + '\n')
+                
+                first_date = main_file.readline()
+            
+        else:
+                print("ERROR: Edit number invalid")
+                again = 'y'
+        main_file.close()
+        temp_file.close()
+        os.remove('diary.txt')
+        os.rename('temp file.txt', 'diary test.txt')
+        
+        if found == 'True':
+            print("File Updated")
+                
+        else:
+            print("Entry not found")
+        
+        again = input("Edit another file? (Enter Y for yes)")
+
+def delete():
+    again = 'y'
+    
+    while again == 'y' or again == 'Y':
+        main_file = open('diary.txt', 'r')
+        temp_file = open('temp file.txt', 'w')
+        found = 'False'
+        editing_date = input("Enter entry date:")
+        editing_time = input("Enter entry time:")
+        
+        first_date = main_file.readline()
+        
+        while first_date != '':
+            first_date = first_date.rstrip('\n')
+            entry_time = main_file.readline()
+            entry_time = entry_time.rstrip('\n')
+            entry = main_file.readline()
+            
+            if first_date != editing_date or entry_time != editing_time:
+            
+                temp_file.write(first_date + '\n')
+                temp_file.write(entry_time + '\n')
+                temp_file.write(entry)
+                found = 'True'
+            
+            first_date = main_file.readline()
+        
+        main_file.close()
+        temp_file.close()
+        os.remove('diary.txt')
+        os.rename('temp file.txt', 'diary test.txt')
+        
+        if found == 'True':
+            print("File Updated")
+                
+        else:
+            print("Entry not found") 
+        again = input("Delete another file? (Enter Y for yes)")
+        
+def diary_entry_search():
+    found = False
+    again = 'y'
+    print("Please enter date in XX-XX-XXXX format")
+    
+    while again == 'y' or again == 'Y':
+        search_date = input("Enter Entry Date:")
+       
+        main_file = open('diary.txt', 'r')
+        entry_date = main_file.readline()
+       
+        while entry_date != '':
+            entry_time = main_file.readline()
+            written_entry = main_file.readline()
+            
+            entry_date = entry_date.rstrip('\n')
+            entry_time = entry_time.rstrip('\n')
+        
+            if entry_date == search_date:
+                print("\n")
+                print("Entry Date:", entry_date)
+                print("Entry Time:", entry_time)
+                print("Entry:", written_entry)
+                found = True
+                
+            entry_date = main_file.readline()
+        main_file.close()
+        
+        if found != True:
+            print("File not located")
+           
+        else:
+            print("File located")
+        
+        print("Another search?")
+        again = input("Enter Y for another or N to stop")
+        
+    print("Thank you!")
+    
+main()

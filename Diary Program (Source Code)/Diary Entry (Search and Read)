@@ -1,0 +1,40 @@
+#Reading a Diary Entry
+
+def diary_entry_search():
+    found = False
+    again = 'y'
+    print("Please enter date in XX-XX-XXXX format")
+    
+    while again == 'y' or again == 'Y':
+        search_date = input("Enter Entry Date:")
+       
+        main_file = open('diary test.txt', 'r')
+        entry_date = main_file.readline()
+       
+        while entry_date != '':
+            entry_time = main_file.readline()
+            written_entry = main_file.readline()
+            
+            entry_date = entry_date.rstrip('\n')
+            entry_time = entry_time.rstrip('\n')
+        
+            if entry_date == search_date:
+                print("\n")
+                print("Entry Date:", entry_date)
+                print("Entry Time:", entry_time)
+                print("Entry:", written_entry)
+                found = True
+                
+            entry_date = main_file.readline()
+        main_file.close()
+        
+        if found != True:
+            print("File not located")
+           
+        else:
+            print("File located")
+        
+        print("Another search?")
+        again = input("Enter Y for another or N to stop")
+        
+    print("Thank you!")

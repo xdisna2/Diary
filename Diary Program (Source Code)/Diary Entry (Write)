@@ -1,0 +1,22 @@
+#Entering Diary Entry (first time use only)
+
+def first_time_entry():
+    
+    main_file = open('diary test.txt', 'w')
+    
+    again = 'y'
+    
+    while again == 'y' or again == 'Y':
+        print("Adding first new entry")
+        entry_date = input("Please enter entry date:")
+        entry_time = input("Please enter entry time:")
+        entry = input("Enter entry:")
+        
+        main_file.write(entry_date + ('\n'))
+        main_file.write(entry_time + ('\n'))
+        main_file.write(entry + ('\n'))
+        
+        again = 'n'
+    main_file.close()
+    print("Entry successfully saved")
+    
